@@ -3,6 +3,7 @@ package com.denhartog.overhoorme;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Random;
 
 import android.app.Activity;
@@ -20,6 +21,8 @@ import android.util.Log;
 public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 	private Activity currActivity;
 	private int mRotation;
+	private WeakReference<Bitmap> preImg;
+	private WeakReference<Bitmap> rotatedImg;
 	
 	public AsyncRotation(Activity a, int rotation) {
 		currActivity = a;
@@ -28,19 +31,18 @@ public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 	
 	@Override
 	protected Uri doInBackground(Void... params) {
-		Bitmap preImg = null;
 		Point size = new Point();
 		File resultFile;
 		
+		System.gc();
 		File mDir = new ContextWrapper(currActivity).getDir(MainActivity.tmpImgDirName, Context.MODE_PRIVATE);
 		mDir.mkdirs();
 
-		System.gc();
 		File tmpImgFile = new File(mDir, MainActivity.tmpImgFileName);
 		BitmapFactory.Options opt = new BitmapFactory.Options();
 		opt.inJustDecodeBounds = true;
 		try {
-			BitmapFactory.decodeFile(tmpImgFile.getAbsolutePath(), opt);
+			new WeakReference<Bitmap>(BitmapFactory.decodeFile(tmpImgFile.getAbsolutePath(), opt));
 		} catch (Exception e) {
 			Log.e("OM", "AsyncRotation | Failed to open tmp img.");
 			e.printStackTrace();
@@ -68,7 +70,7 @@ public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 		opt.inSampleSize = (sampleSize > 1 ? sampleSize - 1 : sampleSize);
 		opt.inJustDecodeBounds = false;
 		try {
-			preImg = BitmapFactory.decodeFile(tmpImgFile.getAbsolutePath(), opt);
+			preImg = new WeakReference<Bitmap>(BitmapFactory.decodeFile(tmpImgFile.getAbsolutePath(), opt));
 		} catch(Exception e) {
 			e.printStackTrace();
 			preImg = null;
@@ -81,7 +83,7 @@ public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 		
 		Matrix rotateMatrix = new Matrix();
 		rotateMatrix.postRotate(mRotation);
-		Bitmap rotatedImg = Bitmap.createBitmap(preImg, 0, 0, opt.outWidth, opt.outHeight, rotateMatrix, true);
+		rotatedImg = new WeakReference<Bitmap>(Bitmap.createBitmap(preImg.get(), 0, 0, opt.outWidth, opt.outHeight, rotateMatrix, true));
 		
 		String dir = Environment.getExternalStorageDirectory().toString();
 		mDir = new File(dir + MainActivity.rotatedImgDir);
@@ -98,7 +100,7 @@ public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 		
 		try {
 			FileOutputStream out = new FileOutputStream(resultFile);
-			rotatedImg.compress(Bitmap.CompressFormat.PNG, 100, out);
+			rotatedImg.get().compress(Bitmap.CompressFormat.PNG, 100, out);
 			out.flush();
 			out.close();
 		} catch(IOException e) {
@@ -108,16 +110,11 @@ public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 			return null;
 		}
 		
-		preImg.recycle();
-		preImg = null;
-		rotatedImg.recycle();
-		rotatedImg = null;
-		System.gc();
-		
 		Log.i("OM", "AsyncRotation | Rotation successful!");
 		Uri result = ImageFragment.getImageContentUri(currActivity, resultFile);
 		MediaScannerWrapper m = new MediaScannerWrapper(currActivity, resultFile.getAbsolutePath(), "image/png");
 		m.scan();
+		System.gc();
 		return result;
 	}
 	

@@ -1,6 +1,6 @@
 /* OverhoorMe JS toebehoren voor Android app
  * Online overhoring d.m.v. vlakjes over een afbeelding
- * v0.5 Alpha (fork van v0.5 Alpha webversie)
+ * v0.6 Beta (fork van v0.5 Alpha webversie)
  * (C) 2014 F.P.J. den Hartog
  */
 

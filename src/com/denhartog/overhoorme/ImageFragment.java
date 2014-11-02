@@ -1,6 +1,8 @@
 package com.denhartog.overhoorme;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,7 +127,8 @@ public class ImageFragment extends Fragment {
 							arr.put(i, result);
 							editor.putString(a.getString(R.string.preference_vakjes_array), arr.toString());
 							editor.commit();
-							Log.i("OM", "Saved vakjes for '"+ result.getString("uri") +"' in SharedPreferences.");
+							Log.i("OM", "Saved vakjes in SharedPreferences for: "+ result.getString("imgId"));
+							Log.v("OM", "Saved vakjes in SharedPreferences for: "+ result.toString());
 
 							Toast.makeText(a.getApplicationContext(), R.string.save_success, Toast.LENGTH_SHORT).show();
 							return;
@@ -141,7 +144,8 @@ public class ImageFragment extends Fragment {
 			editor.putString(a.getString(R.string.preference_vakjes_array), arr.toString());
 			editor.commit();
 			
-			Log.i("OM", "Saved vakjes for '"+ result.getString("uri") +"' in SharedPreferences.");
+			Log.i("OM", "Saved vakjes in SharedPreferences for: "+ result.getString("imgId"));
+			Log.v("OM", "Saved vakjes in SharedPreferences for: "+ result.toString());
 			Toast.makeText(a.getApplicationContext(), R.string.save_success, Toast.LENGTH_SHORT).show();
 		} catch(Exception e) {
 			Log.e("OM", "Saving failed: "+ e.getMessage());
@@ -196,7 +200,11 @@ public class ImageFragment extends Fragment {
 		}
 		
 		Intent i = new Intent(a, MainActivity.class);
-		i.putExtra(MainActivity.ARG_IMG_URI, fromUri.toString());
+		try {
+			i.putExtra(MainActivity.ARG_IMG_URI, URLDecoder.decode(fromUri.toString(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		Log.v("OM", "Loading MainActivity after tmp image was created.");
 		a.startActivity(i);
 	}

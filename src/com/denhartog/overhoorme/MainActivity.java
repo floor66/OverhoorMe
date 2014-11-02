@@ -1,8 +1,5 @@
 package com.denhartog.overhoorme;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -149,7 +146,7 @@ public class MainActivity extends Activity {
 					if(len > 0) {
 						for(int i = 0; i < len; i++) {
 							JSONObject obj = arr.getJSONObject(i);
-							String[] tmp = URLDecoder.decode(in.getStringExtra(ARG_IMG_URI), "UTF-8").split("/");
+							String[] tmp = in.getStringExtra(ARG_IMG_URI).split("/");
 							String imgId = tmp[tmp.length - 1].replace("image:", "");
 							Log.v("OM", "Looking for '"+ obj.getString("imgId") +"' with ARG_IMG_URI imgId '"+ imgId +"'");
 							if(obj.getString("imgId").equals(imgId)) {
@@ -162,8 +159,6 @@ public class MainActivity extends Activity {
 				}
 			} catch(JSONException e) {
 				Log.e("OM", "Loading SavedPreferences failed.");
-			} catch(UnsupportedEncodingException e) {
-				Log.e("OM", "Will never happeeeen.");
 			}
 			
 			if(frag == null) {

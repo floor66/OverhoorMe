@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 public class AsyncTmpImgCreation extends AsyncTask<Uri, Integer, Uri> {
 	private Activity currActivity;
 	private Uri imgUri;
+	private WeakReference<Bitmap> grabImg;
 	
 	public AsyncTmpImgCreation(Activity a) {
 		currActivity = a;
@@ -27,7 +29,6 @@ public class AsyncTmpImgCreation extends AsyncTask<Uri, Integer, Uri> {
 	
 	@Override
 	protected Uri doInBackground(Uri... params) {
-		Bitmap grabImg = null;
 		Uri tmpImgUri = null;
 		InputStream ips;
 		Point size = new Point();
@@ -74,7 +75,7 @@ public class AsyncTmpImgCreation extends AsyncTask<Uri, Integer, Uri> {
 		opt.inJustDecodeBounds = false;
 		try {
 			ips = currActivity.getContentResolver().openInputStream(imgUri);
-			grabImg = BitmapFactory.decodeStream(ips, null, opt);
+			grabImg = new WeakReference<Bitmap>(BitmapFactory.decodeStream(ips, null, opt));
 			ips.close();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -93,7 +94,7 @@ public class AsyncTmpImgCreation extends AsyncTask<Uri, Integer, Uri> {
 		
 		try {
 			FileOutputStream out = new FileOutputStream(tmpImgFile);
-			grabImg.compress(Bitmap.CompressFormat.PNG, 100, out);
+			grabImg.get().compress(Bitmap.CompressFormat.PNG, 100, out);
 			out.flush();
 			out.close();
 		} catch(FileNotFoundException e) {
@@ -108,9 +109,9 @@ public class AsyncTmpImgCreation extends AsyncTask<Uri, Integer, Uri> {
 			return null;
 		}
 		
-		grabImg.recycle();
 		tmpImgUri = Uri.parse(tmpImgFile.getAbsolutePath());
 		Log.i("OM", "AsyncTmpImgCreation | tmpImgUri "+ tmpImgUri.toString() +" has been made from "+ imgUri.toString());
+		System.gc();
 		return tmpImgUri;
 	}
 	
