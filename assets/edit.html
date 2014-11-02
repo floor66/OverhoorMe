@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="inc/overhoorme.css">
+		<link rel="stylesheet" href="inc/bootstrap.min.css">
+		<script type="text/javascript" src="inc/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="inc/overhoorme-android.js"></script>
+		<script type="text/javascript">
+		<!--
+		function init(obj) {
+			obj.tmpImgUri = decodeURIComponent(obj.tmpImgUri);
+			window.uri = obj.uri;
+			var overhoor = new overhoorMe(obj);
+
+			$("#rotate, #rotate_ac").bind("click", function() {
+				window.clicked = $(this);
+				$("#container").fadeOut(function() {
+					$(this).empty().append("<div class=\"jumbotron\" style=\"width: 100%;\"><h2>Even geduld...</h2></div>").fadeIn(function() {
+						Android.rotateImg(window.clicked.attr("id") == "rotate" ? "90" : "-90");
+					});
+				});
+			});
+		}
+		-->
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row" id="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="btn-group" style="margin-top: 10px; width: 100%;">
+							<button class="btn btn-primary" type="button" style="width: 50%;" id="edit">Bewerken</button>
+							<button class="btn btn-default" type="button" style="width: 50%;" id="overhoren">Overhoren</button>
+						</span>
+					</div>
+					<div class="panel-body" id="main">
+						<div id="opslaan">
+							<button class="btn btn-danger" type="button" style="width: 49%;" id="clear">Alles wissen</button>
+							<button class="btn btn-success" type="button" style="width: 49%;" id="save">Opslaan</button>
+							<br /><br />
+						</div>
+						<div class="frame" oncontextmenu="return false;"></div>
+						<hr />
+						<div class="text-center" id="buttons">
+							<button type="button" class="btn btn-lg btn-primary" style="width: 49%;" id="rotate_ac">Draai 90&deg; &#x21BA;</button>
+							<button type="button" class="btn btn-lg btn-primary" style="width: 49%;" id="rotate">Draai 90&deg; &#x21BB;</button><br /><br />
+							<button type="button" class="btn btn-lg btn-success" style="width: 33%;" onClick="Android.reloadPage();">Verversen</button>
+							<hr />
+						</div>
+						<p class="uitleg"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="inc/bootstrap.min.js"></script>
+	</body>
+</html>

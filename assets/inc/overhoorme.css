@@ -1,0 +1,19 @@
+/* OverhoorMe CSS toebehoren
+ * Online overhoring d.m.v. vlakjes over een afbeelding
+ * (C) 2014 F.P.J. den Hartog
+ */
+
+.frame {
+	margin: auto;
+	border: 2px dashed #000000;
+}
+
+.frame  > div {
+	position: absolute;
+	float: left;
+	border: 1px solid #000000;
+	background-color: #999999;
+	width: 1px;
+	height: 1px;
+	z-index: 10;
+}

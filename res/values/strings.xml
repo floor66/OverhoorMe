@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OverhoorMe</string>
+    <string name="preference_vakjes_array">vakjes_array</string>
+    
+    <string name="action_settings">Settings</string>
+	<string-array name="menu_options">
+	    <item>Home</item>
+	    <item>Aan de slag!</item>
+	    <item>Help</item>
+	    <item>Over deze app</item>
+	</string-array>
+	
+    <string name="drawer_open">Openen</string>
+    <string name="drawer_close">Sluiten</string>
+    <string name="drawer_title">Menu</string>
+    
+    <string name="save_success">Succesvol opgeslagen!</string>
+    <string name="save_error">Opslaan mislukt!</string>
+    <string name="no_saves_found">Geen opgeslagen bestanden gevonden!</string>
+    <string name="save_already_exists">Er bestaat al een bestand met deze naam!</string>
+    
+    <string name="warning">Waarschuwing</string>
+    <string name="img_open_are_you_sure">Weet je zeker dat je een nieuwe afbeelding wil kiezen? Alle onopgeslagen veranderingen zijn verloren!</string>
+    <string name="save_found">Deze afbeelding is al eens gebruikt. Opnieuw laden incl. vakjes?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="loading">Afbeelding laden&#8230;</string>
+    
+    <string name="rotate_saved">Afbeelding gedraaid en opgeslagen</string>
+    <string name="rotate_failed">Draaien mislukt</string>
+    
+    <string name="loading_failed">Laden van opgeslagen afbeelding mislukt</string>
+    
+    <string name="delete">Verwijder</string>
+</resources>
