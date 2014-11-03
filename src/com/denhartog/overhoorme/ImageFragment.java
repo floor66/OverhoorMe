@@ -123,7 +123,7 @@ public class ImageFragment extends Fragment {
 				if(len > 0) {
 					for(int i = 0; i < len; i++) {
 						JSONObject obj = arr.getJSONObject(i);
-						if(obj.getString("uri").equals(result.getString("uri"))) {
+						if(obj.getString("imgId").equals(result.getString("imgId"))) {
 							arr.put(i, result);
 							editor.putString(a.getString(R.string.preference_vakjes_array), arr.toString());
 							editor.commit();

@@ -166,7 +166,8 @@ function overhoorMe(settings) {
 			});
 		}
 		
-		$("#save").attr("class", "btn btn-success").unbind("click").bind("click", function() {
+		$("#save").removeAttr("disabled").unbind("click").bind("click", function() {
+			$(this).attr("disabled", "disabled");
 			var tmp = main.obj.uri.split("/");
 			tmp = tmp[tmp.length - 1].replace("image:", "");
 			Android.saveVakjes(JSON.stringify({
@@ -181,11 +182,13 @@ function overhoorMe(settings) {
 		});
 		
 		$("#clear").unbind("click").bind("click", function() {
-			$(".frame > div").unbind("touchstart", "touchend").remove();
-			main.vakjes = {};
-			main.counter = 0;
-			
-			main.update();
+			if(confirm("Weet je het zeker?")) {
+				$(".frame > div").unbind("touchstart", "touchend").remove();
+				main.vakjes = {};
+				main.counter = 0;
+				
+				main.update();
+			}
 		});
 	}
 
