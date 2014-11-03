@@ -67,7 +67,7 @@ public class AsyncRotation extends AsyncTask<Void, Integer, Uri> {
 			Log.v("OM", "AsyncRotation | No need to resize.");
 		}
 		
-		opt.inSampleSize = (sampleSize > 1 ? sampleSize - 1 : sampleSize);
+		opt.inSampleSize = sampleSize;
 		opt.inJustDecodeBounds = false;
 		try {
 			preImg = new WeakReference<Bitmap>(BitmapFactory.decodeFile(tmpImgFile.getAbsolutePath(), opt));

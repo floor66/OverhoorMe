@@ -71,7 +71,7 @@ public class AsyncTmpImgCreation extends AsyncTask<Uri, Integer, Uri> {
 			Log.v("OM", "AsyncTmpImgCreation | No need to resize.");
 		}
 		
-		opt.inSampleSize = (sampleSize > 1 ? sampleSize - 1 : sampleSize);
+		opt.inSampleSize = sampleSize;
 		opt.inJustDecodeBounds = false;
 		try {
 			ips = currActivity.getContentResolver().openInputStream(imgUri);
